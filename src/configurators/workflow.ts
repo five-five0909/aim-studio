@@ -13,36 +13,11 @@ import {
 // Import markdown templates
 import {
   agentProgressIndexContent,
-  // Backend structure (multi-doc)
-  backendIndexContent,
-  backendDirectoryStructureContent,
-  backendDatabaseGuidelinesContent,
-  backendLoggingGuidelinesContent,
-  backendQualityGuidelinesContent,
-  backendErrorHandlingContent,
-  // Frontend structure (multi-doc)
-  frontendIndexContent,
-  frontendDirectoryStructureContent,
-  frontendTypeSafetyContent,
-  frontendHookGuidelinesContent,
-  frontendComponentGuidelinesContent,
-  frontendQualityGuidelinesContent,
-  frontendStateManagementContent,
-  // Guides structure
-  guidesIndexContent,
-  guidesCrossLayerThinkingGuideContent,
-  guidesCodeReuseThinkingGuideContent,
-  // Story structure
+  // Story structure (for comic/novel creation)
   storyIndexContent,
   storyCharacterContent,
   storyWorldContent,
   storyScriptContent,
-  // CLI tool structure
-  cliIndexContent,
-  cliDirectoryStructureContent,
-  cliOptionsFlagsContent,
-  cliOutputFormattingContent,
-  cliErrorHandlingContent,
 } from "../templates/markdown/index.js";
 
 import { writeFile, ensureDir } from "../utils/file-writer.js";
@@ -140,122 +115,7 @@ async function createSpecTemplates(
   // Ensure spec directory exists
   ensureDir(path.join(cwd, PATHS.SPEC));
 
-  // Guides - always created
-  ensureDir(path.join(cwd, `${PATHS.SPEC}/guides`));
-  const guidesDocs: DocDefinition[] = [
-    { name: "index.md", content: guidesIndexContent },
-    {
-      name: "cross-layer-thinking-guide.md",
-      content: guidesCrossLayerThinkingGuideContent,
-    },
-    {
-      name: "code-reuse-thinking-guide.md",
-      content: guidesCodeReuseThinkingGuideContent,
-    },
-  ];
-
-  for (const doc of guidesDocs) {
-    await writeFile(
-      path.join(cwd, `${PATHS.SPEC}/guides`, doc.name),
-      doc.content,
-    );
-  }
-
-  // Create backend spec for backend/fullstack/cli projects
-  if (projectType !== "frontend" && projectType !== "story") {
-    ensureDir(path.join(cwd, `${PATHS.SPEC}/backend`));
-    const backendDocs: DocDefinition[] = [
-      { name: "index.md", content: backendIndexContent },
-      {
-        name: "directory-structure.md",
-        content: backendDirectoryStructureContent,
-      },
-      {
-        name: "database-guidelines.md",
-        content: backendDatabaseGuidelinesContent,
-      },
-      {
-        name: "logging-guidelines.md",
-        content: backendLoggingGuidelinesContent,
-      },
-      {
-        name: "quality-guidelines.md",
-        content: backendQualityGuidelinesContent,
-      },
-      { name: "error-handling.md", content: backendErrorHandlingContent },
-    ];
-
-    for (const doc of backendDocs) {
-      await writeFile(
-        path.join(cwd, `${PATHS.SPEC}/backend`, doc.name),
-        doc.content,
-      );
-    }
-  }
-
-  // Create frontend spec for frontend/fullstack projects
-  if (
-    projectType !== "backend" &&
-    projectType !== "cli" &&
-    projectType !== "story"
-  ) {
-    ensureDir(path.join(cwd, `${PATHS.SPEC}/frontend`));
-    const frontendDocs: DocDefinition[] = [
-      { name: "index.md", content: frontendIndexContent },
-      {
-        name: "directory-structure.md",
-        content: frontendDirectoryStructureContent,
-      },
-      { name: "type-safety.md", content: frontendTypeSafetyContent },
-      { name: "hook-guidelines.md", content: frontendHookGuidelinesContent },
-      {
-        name: "component-guidelines.md",
-        content: frontendComponentGuidelinesContent,
-      },
-      {
-        name: "quality-guidelines.md",
-        content: frontendQualityGuidelinesContent,
-      },
-      {
-        name: "state-management.md",
-        content: frontendStateManagementContent,
-      },
-    ];
-
-    for (const doc of frontendDocs) {
-      await writeFile(
-        path.join(cwd, `${PATHS.SPEC}/frontend`, doc.name),
-        doc.content,
-      );
-    }
-  }
-
-  // Create CLI spec for CLI projects
-  if (projectType === "cli") {
-    ensureDir(path.join(cwd, `${PATHS.SPEC}/cli`));
-    const cliDocs: DocDefinition[] = [
-      { name: "index.md", content: cliIndexContent },
-      {
-        name: "directory-structure.md",
-        content: cliDirectoryStructureContent,
-      },
-      { name: "options-flags.md", content: cliOptionsFlagsContent },
-      {
-        name: "output-formatting.md",
-        content: cliOutputFormattingContent,
-      },
-      { name: "error-handling.md", content: cliErrorHandlingContent },
-    ];
-
-    for (const doc of cliDocs) {
-      await writeFile(
-        path.join(cwd, `${PATHS.SPEC}/cli`, doc.name),
-        doc.content,
-      );
-    }
-  }
-
-  // Create story spec for story projects
+  // Only create story spec (for comic/novel creation)
   if (projectType === "story") {
     ensureDir(path.join(cwd, `${PATHS.SPEC}/story`));
     const storyDocs: DocDefinition[] = [

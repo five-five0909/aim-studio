@@ -21,10 +21,7 @@ import {
   writeFile,
   type WriteMode,
 } from "../utils/file-writer.js";
-import {
-  detectProjectType,
-  type ProjectType,
-} from "../utils/project-detector.js";
+import { type ProjectType } from "../utils/project-detector.js";
 import { initializeHashes } from "../utils/template-hash.js";
 import {
   fetchTemplateIndex,
@@ -394,9 +391,6 @@ export async function init(options: InitOptions): Promise<void> {
     console.log(chalk.blue("👤 Developer:"), chalk.gray(developerName));
   }
 
-  // Detect project type (silent - no output)
-  const detectedType = detectProjectType(cwd);
-
   // Tool definitions derived from platform registry
   const TOOLS = getInitToolChoices();
 
@@ -430,9 +424,9 @@ export async function init(options: InitOptions): Promise<void> {
     tools = answers.tools;
   }
 
-  // Treat unknown project type as fullstack
-  const projectType: ProjectType =
-    detectedType === "unknown" ? "fullstack" : detectedType;
+  // Default to story project type (for comic/novel creation)
+  // If explicitly detected as frontend/backend/cli, still use story for now
+  const projectType: ProjectType = "story";
 
   if (tools.length === 0) {
     console.log(
