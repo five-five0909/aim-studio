@@ -24,7 +24,7 @@ from datetime import datetime
 
 # Add parent directory to path for imports
 sys.path.insert(0, str(Path(__file__).parent))
-from common.paths import get_project_root, get_tasks_dir
+from common.paths import get_repo_root, get_tasks_dir
 
 
 # =============================================================================
@@ -601,7 +601,7 @@ def main():
     args = parser.parse_args()
 
     # Get project paths
-    project_root = get_project_root()
+    project_root = get_repo_root()
     tasks_dir = get_tasks_dir(project_root)
     spec_dir = project_root / ".aim-studio" / "spec"
 
