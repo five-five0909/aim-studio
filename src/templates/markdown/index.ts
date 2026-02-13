@@ -111,6 +111,9 @@ export const storyWorldContent: string = readLocalTemplate(
 export const storyScriptContent: string = readLocalTemplate(
   "spec/story/script.md.txt",
 );
+export const styleGuideContent: string = readLocalTemplate(
+  "spec/story/style-guide.md.txt",
+);
 
 // CLI tool structure
 export const cliIndexContent: string = readLocalTemplate(

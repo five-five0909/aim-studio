@@ -18,6 +18,7 @@ import {
   storyCharacterContent,
   storyWorldContent,
   storyScriptContent,
+  styleGuideContent,
 } from "../templates/markdown/index.js";
 
 import { writeFile, ensureDir } from "../utils/file-writer.js";
@@ -123,6 +124,7 @@ async function createSpecTemplates(
       { name: "character.md", content: storyCharacterContent },
       { name: "world.md", content: storyWorldContent },
       { name: "script.md", content: storyScriptContent },
+      { name: "style-guide.md", content: styleGuideContent },
     ];
 
     for (const doc of storyDocs) {
