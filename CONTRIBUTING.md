@@ -1,6 +1,6 @@
-# Contributing to Trellis
+# Contributing to AIM Studio
 
-Thanks for your interest in contributing to Trellis! This document provides guidelines for contributing to the project.
+Thanks for your interest in contributing to AIM Studio! This document provides guidelines for contributing to the project.
 
 ## Ways to Contribute
 
@@ -9,7 +9,7 @@ Thanks for your interest in contributing to Trellis! This document provides guid
 Before creating a bug report, please check [existing issues](https://github.com/five-five0909/aim-studio/issues) to avoid duplicates.
 
 When reporting a bug, include:
-- Trellis version (`trellis --version`)
+- AIM Studio version (`aim --version`)
 - Node.js version (`node --version`)
 - Operating system
 - Steps to reproduce
@@ -44,7 +44,7 @@ Code contributions are welcome for:
 
 - Node.js 18.0.0+
 - pnpm
-- Python 3 (for hooks)
+- Python 3.8+ (for hooks)
 - Bash (for scripts)
 
 ### Getting Started
@@ -53,8 +53,8 @@ Code contributions are welcome for:
 
 2. **Clone your fork**
    ```bash
-   git clone https://github.com/YOUR_USERNAME/Trellis.git
-   cd Trellis
+   git clone https://github.com/five-five0909/aim-studio.git
+   cd aim-studio
    ```
 
 3. **Install dependencies**
@@ -81,24 +81,25 @@ pnpm typecheck   # TypeScript type checking
 ## Project Structure
 
 ```
-Trellis/
+aim-studio/
 ├── src/                    # TypeScript source code
 │   ├── cli/                # CLI entry point
 │   ├── commands/           # CLI commands (init, update)
 │   ├── configurators/      # Template application logic
-│   ├── templates/          # Templates copied to user projects ←
-│   └── utils/              # Utility functions
-├── .claude/                # Claude Code config (project's own) ←
+│   ├── templates/          # Templates copied to user projects
+│   └── utils/             # Utility functions
+├── .claude/                # AIM Studio's own Claude Code config
 │   ├── agents/             # Agent definitions
 │   ├── commands/           # Slash commands
-│   └── hooks/              # Python hook scripts
-├── .trellis/               # Trellis workflow (project's own) ←
-│   ├── scripts/            # Bash scripts
-│   └── spec/               # Spec file templates
-└── docs/                   # Documentation
+│   └── hooks/             # Python hook scripts
+├── .aim-studio/            # AIM Studio's own workflow config
+│   ├── spec/              # Project spec files
+│   ├── scripts/           # Python scripts
+│   └── workspace/         # Workspace directory
+└── dist/                   # Build output
 ```
 
-> **Important:** When modifying `.claude/`, `.trellis/`, or `.cursor/`, check if the same changes need to be applied to `src/templates/`. The project uses its own config files, but templates are what gets installed to user projects.
+> **Important:** When modifying `.claude/`, `.aim-studio/`, or `.cursor/`, check if the same changes need to be applied to `src/templates/`. The project uses its own config files, but templates are what gets installed to user projects.
 
 ## Commit Guidelines
 
@@ -151,4 +152,4 @@ docs(readme): update quick start instructions
 
 ## Thank You
 
-Every contribution helps make Trellis better. We appreciate your time and effort!
+Every contribution helps make AIM Studio better. We appreciate your time and effort!
