@@ -221,6 +221,113 @@ python3 .aim-studio/scripts/export.py --ep 1 --duration 10 --open
 
 ---
 
+## 完整参数说明
+
+### 所有参数一览表
+
+| 参数 | 必填 | 可选值 | 默认值 | 说明 |
+|------|------|--------|--------|------|
+| `--ep` | 是 | `1`, `1-3`, `all` | 无 | 指定导出的集数 |
+| `--format` | 否 | `seedance`, `simple` | `seedance` | 导出格式 |
+| `--duration` | 否 | `5`, `10`, `15`, `30`, `45`, `60` | `10` | 视频时长（秒） |
+| `--output` | 否 | 任意目录名 | `export` | 输出目录名称 |
+| `--open` | 否 | 开关 | 关闭 | 导出后自动打开文件夹 |
+| `--check` | 否 | 开关 | 关闭 | 仅检查违规，不导出 |
+| `--force` | 否 | 开关 | 关闭 | 强制导出，忽略违规警告 |
+
+### 参数详细说明
+
+#### `--ep` (必填)
+指定要导出的集数：
+- `1` - 导出第1集
+- `1-3` - 导出第1集到第3集
+- `all` - 导出所有集数
+
+示例：
+```bash
+python3 .aim-studio/scripts/export.py --ep 1       # 导出第1集
+python3 .aim-studio/scripts/export.py --ep 1-3     # 导出1到3集
+python3 .aim-studio/scripts/export.py --ep all      # 导出全部
+```
+
+#### `--format` (可选)
+导出内容的格式：
+- `seedance`（默认）- 完整格式，包含角色、环境、上下文、风格等所有信息
+- `simple` - 极简格式，只有场景描述和对话
+
+示例：
+```bash
+python3 .aim-studio/scripts/export.py --ep 1 --format seedance
+python3 .aim-studio/scripts/export.py --ep 1 --format simple
+```
+
+#### `--duration` (可选)
+生成的视频时长（秒）：
+- `5` - 5秒短视频
+- `10` - 10秒（**默认值**）
+- `15` - 15秒
+- `30` - 30秒
+- `45` - 45秒
+- `60` - 60秒
+
+示例：
+```bash
+python3 .aim-studio/scripts/export.py --ep 1 --duration 5   # 5秒
+python3 .aim-studio/scripts/export.py --ep 1 --duration 30  # 30秒
+```
+
+#### `--output` (可选)
+指定输出目录的名称，默认值为 `export`
+
+示例：
+```bash
+python3 .aim-studio/scripts/export.py --ep 1 --output my-videos
+# 输出到 my-videos/ 目录
+```
+
+#### `--open` (可选)
+导出完成后自动打开输出文件夹（仅 Windows/Mac/Linux）
+
+示例：
+```bash
+python3 .aim-studio/scripts/export.py --ep 1 --open
+```
+
+#### `--check` (可选)
+只检查违规内容，不进行导出。检查结果会显示是否有违规，但不会生成文件。
+
+示例：
+```bash
+python3 .aim-studio/scripts/export.py --check
+# 输出违规报告，不导出任何文件
+```
+
+#### `--force` (可选)
+强制导出，即使检测到违规内容也会继续导出。**注意：使用此参数风险自负！**
+
+示例：
+```bash
+python3 .aim-studio/scripts/export.py --ep 1 --force
+```
+
+### 组合使用示例
+
+```bash
+# 完整示例：导出第1集，30秒时长，导出后打开文件夹
+python3 .aim-studio/scripts/export.py --ep 1 --duration 30 --open
+
+# 导出1-3集，15秒，简单格式
+python3 .aim-studio/scripts/export.py --ep 1-3 --duration 15 --format simple
+
+# 仅检查违规
+python3 .aim-studio/scripts/export.py --check
+
+# 强制导出（忽略警告）
+python3 .aim-studio/scripts/export.py --ep 1 --force
+```
+
+---
+
 ## 注意事项
 
 1. **纯文本格式**：导出的文件不包含任何 `#`、`*`、`[]` 等 Markdown 符号

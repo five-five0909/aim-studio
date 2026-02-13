@@ -68,6 +68,29 @@ description: 完成创作并记录工作
 python3 ./.aim-studio/scripts/add_session.py --title "<工作标题>" --summary "<工作摘要>"
 ```
 
+#### add_session.py 完整参数说明
+
+| 参数 | 必填 | 说明 | 示例 |
+|------|------|------|------|
+| `--title` | 是 | 会话标题，简洁描述本次工作 | `--title "第1集第3场创作"` |
+| `--summary` | 是 | 工作摘要，描述完成的内容 | `--summary "完成慕容天与沈安在的对手戏"` |
+| `--commit` | 否 | Git 提交哈希（如果有提交） | `--commit "abc1234"` |
+
+#### 使用示例
+
+```bash
+# 简单记录
+python3 ./.aim-studio/scripts/add_session.py \
+  --title "第1集第3场创作" \
+  --summary "完成慕容天与沈安在的对手戏"
+
+# 带 Git 提交的记录
+python3 ./.aim-studio/scripts/add_session.py \
+  --title "创作第1集" \
+  --summary "完成第1集前5场的创作" \
+  --commit "a1b2c3d"
+```
+
 ### 步骤 4：报告完成
 
 向用户报告完成的内容和下一步建议。
