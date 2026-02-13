@@ -45,7 +45,7 @@ if sys.platform == "win32":
 # =============================================================================
 
 DIR_WORKFLOW = ".aim-studio"
-DIR_WORKSPACE = "workspace"
+DIR_WORKSPACE = "aim-workspace"
 DIR_TASKS = "tasks"
 DIR_SPEC = "spec"
 FILE_CURRENT_TASK = ".current-task"
@@ -337,10 +337,8 @@ def get_check_context(repo_root: str, task_dir: str) -> str:
     else:
         # Fallback: use hardcoded check files + spec.jsonl
         check_files = [
-            (".claude/commands/trellis/finish-work.md", "Finish work checklist"),
-            (".claude/commands/trellis/check-cross-layer.md", "Cross-layer check spec"),
-            (".claude/commands/trellis/check-backend.md", "Backend check spec"),
-            (".claude/commands/trellis/check-frontend.md", "Frontend check spec"),
+            (".claude/commands/aim/finish-work.md", "Finish work checklist"),
+            (".claude/commands/aim/check-story.md", "Story check spec"),
         ]
         for file_path, description in check_files:
             content = read_file_content(repo_root, file_path)
@@ -382,11 +380,11 @@ def get_finish_context(repo_root: str, task_dir: str) -> str:
     else:
         # Fallback: only finish-work.md (lightweight)
         finish_work = read_file_content(
-            repo_root, ".claude/commands/trellis/finish-work.md"
+            repo_root, ".claude/commands/aim/finish-work.md"
         )
         if finish_work:
             context_parts.append(
-                f"=== .claude/commands/trellis/finish-work.md (Finish checklist) ===\n{finish_work}"
+                f"=== .claude/commands/aim/finish-work.md (Finish checklist) ===\n{finish_work}"
             )
 
     # 2. Requirements document (for verifying requirements are met)
@@ -422,9 +420,7 @@ def get_debug_context(repo_root: str, task_dir: str) -> str:
             context_parts.append(f"=== {file_path} (Dev spec) ===\n{content}")
 
         check_files = [
-            (".claude/commands/trellis/check-backend.md", "Backend check spec"),
-            (".claude/commands/trellis/check-frontend.md", "Frontend check spec"),
-            (".claude/commands/trellis/check-cross-layer.md", "Cross-layer check spec"),
+            (".claude/commands/aim/check-story.md", "Story check spec"),
         ]
         for file_path, description in check_files:
             content = read_file_content(repo_root, file_path)

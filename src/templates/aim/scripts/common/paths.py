@@ -23,7 +23,7 @@ from pathlib import Path
 
 # Directory names
 DIR_WORKFLOW = ".aim-studio"
-DIR_WORKSPACE = "workspace"
+DIR_WORKSPACE = "aim-workspace"
 DIR_TASKS = "tasks"
 DIR_ARCHIVE = "archive"
 DIR_SPEC = "spec"
@@ -142,7 +142,8 @@ def get_workspace_dir(repo_root: Path | None = None) -> Path | None:
 
     developer = get_developer(repo_root)
     if developer:
-        return repo_root / DIR_WORKFLOW / DIR_WORKSPACE / developer
+        # workspace 目录直接在项目根目录下，不在 .aim-studio 中
+        return repo_root / DIR_WORKSPACE / developer
     return None
 
 

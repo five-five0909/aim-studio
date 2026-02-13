@@ -1,0 +1,71 @@
+# CLI Directory Structure
+
+> How the CLI tool is organized.
+
+---
+
+## Overview
+
+Describe your CLI project's directory structure and organization.
+
+---
+
+## Entry Point
+
+| File | Purpose |
+|------|---------|
+| `bin/aim.js` | Main CLI entry point |
+| `src/cli/` | CLI argument parsing |
+| `src/commands/` | Command implementations |
+
+---
+
+## Example Structure
+
+```
+.
+├── bin/
+│   └── aim.js           # CLI entry point
+├── src/
+│   ├── cli/            # Command-line parsing
+│   │   └── index.ts
+│   ├── commands/       # Command implementations
+│   │   ├── init.ts
+│   │   └── update.ts
+│   ├── utils/          # Utility functions
+│   └── types/          # TypeScript types
+├── package.json
+└── tsconfig.json
+```
+
+---
+
+## Patterns
+
+Describe common patterns used in your project:
+
+### Command Organization
+
+```typescript
+// Example: how commands are registered
+export const commands = [init, update];
+```
+
+### Module Boundaries
+
+- `src/cli/` - Pure CLI concerns (parsing, help text)
+- `src/commands/` - Business logic
+- `src/utils/` - Shared utilities
+
+---
+
+## Anti-Patterns
+
+- ❌ Mixing business logic in CLI entry point
+- ❌ No separation between commands
+
+---
+
+## Add Your Examples
+
+Replace these with real examples from your codebase.

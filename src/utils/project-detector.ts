@@ -4,7 +4,13 @@ import path from "node:path";
 /**
  * Project type detected by analyzing project files
  */
-export type ProjectType = "frontend" | "backend" | "fullstack" | "story" | "unknown";
+export type ProjectType =
+  | "frontend"
+  | "backend"
+  | "fullstack"
+  | "story"
+  | "cli"
+  | "unknown";
 
 /**
  * Files that indicate a frontend project
@@ -108,6 +114,18 @@ const BACKEND_DEPS = [
 ];
 
 /**
+ * Files that indicate a CLI tool project (not frontend/backend)
+ */
+const CLI_INDICATORS = [
+  // Node.js CLI tools
+  "bin/aim.js",
+  "bin/trellis.js",
+  "bin/cli.js",
+  // Python CLI tools (click, typer, argparse)
+  "pyproject.toml", // Check for CLI tools in dependencies
+];
+
+/**
  * Check if a file exists in the project directory
  */
 function fileExists(cwd: string, filename: string): boolean {
@@ -172,6 +190,10 @@ function checkPackageJson(cwd: string): {
  * @returns Detected project type
  */
 export function detectProjectType(cwd: string): ProjectType {
+  // Check for CLI tool indicators first (has bin/ directory)
+  const hasCliFiles = CLI_INDICATORS.some((f) => fileExists(cwd, f));
+  const hasBinDir = fs.existsSync(path.join(cwd, "bin"));
+
   // Check for file indicators
   const hasFrontendFiles = FRONTEND_INDICATORS.some((f) => fileExists(cwd, f));
   const hasBackendFiles = BACKEND_INDICATORS.some((f) => fileExists(cwd, f));
@@ -182,6 +204,11 @@ export function detectProjectType(cwd: string): ProjectType {
 
   const isFrontend = hasFrontendFiles || hasFrontendDeps;
   const isBackend = hasBackendFiles || hasBackendDeps;
+
+  // CLI tool detection: has bin/ directory but no frontend/backend indicators
+  if ((hasCliFiles || hasBinDir) && !isFrontend && !isBackend) {
+    return "cli";
+  }
 
   if (isFrontend && isBackend) {
     return "fullstack";
@@ -207,6 +234,8 @@ export function getProjectTypeDescription(type: ProjectType): string {
       return "Fullstack project (frontend + backend)";
     case "story":
       return "Story project (Comic/Novel creation)";
+    case "cli":
+      return "CLI tool project (command-line interface)";
     case "unknown":
       return "Unknown project type (defaults to fullstack)";
   }

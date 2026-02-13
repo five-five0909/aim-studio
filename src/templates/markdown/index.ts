@@ -95,9 +95,8 @@ export const guidesCrossLayerThinkingGuideContent: string = readLocalTemplate(
 export const guidesCodeReuseThinkingGuideContent: string = readLocalTemplate(
   "spec/guides/code-reuse-thinking-guide.md.txt",
 );
-export const guidesCrossPlatformThinkingGuideContent: string = readLocalTemplate(
-  "spec/guides/cross-platform-thinking-guide.md.txt",
-);
+export const guidesCrossPlatformThinkingGuideContent: string =
+  readLocalTemplate("spec/guides/cross-platform-thinking-guide.md.txt");
 
 // Story structure
 export const storyIndexContent: string = readLocalTemplate(
@@ -111,4 +110,21 @@ export const storyWorldContent: string = readLocalTemplate(
 );
 export const storyScriptContent: string = readLocalTemplate(
   "spec/story/script.md.txt",
+);
+
+// CLI tool structure
+export const cliIndexContent: string = readLocalTemplate(
+  "spec/cli/index.md.txt",
+);
+export const cliDirectoryStructureContent: string = readLocalTemplate(
+  "spec/cli/directory-structure.md.txt",
+);
+export const cliOptionsFlagsContent: string = readLocalTemplate(
+  "spec/cli/options-flags.md.txt",
+);
+export const cliOutputFormattingContent: string = readLocalTemplate(
+  "spec/cli/output-formatting.md.txt",
+);
+export const cliErrorHandlingContent: string = readLocalTemplate(
+  "spec/cli/error-handling.md.txt",
 );

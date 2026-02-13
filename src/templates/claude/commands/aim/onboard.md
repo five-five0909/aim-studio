@@ -41,7 +41,7 @@ Every AI session starts with a blank slate. Unlike human engineers who accumulat
 
 **The Problem**: Without memory, AI asks the same questions repeatedly, makes the same mistakes, and can't build on previous work.
 
-**The Solution**: The `.aim-studio/workspace/` system captures what happened in each session - what was done, what was learned, what problems were solved. The `/aim:start` command reads this history at session start, giving AI "artificial memory."
+**The Solution**: The `aim-workspace/` system captures what happened in each session - what was done, what was learned, what problems were solved. The `/aim:start` command reads this history at session start, giving AI "artificial memory."
 
 ### Challenge 2: AI Has Generic Knowledge, Not Project-Specific Knowledge
 
@@ -67,11 +67,13 @@ Even after injecting guidelines, AI has limited context window. As conversation 
 .aim-studio/
 |-- .developer              # Your identity (gitignored)
 |-- workflow.md             # Complete workflow documentation
-|-- workspace/              # "AI Memory" - session history
-|   |-- index.md            # All developers' progress
-|   +-- {developer}/        # Per-developer directory
-|       |-- index.md        # Personal progress index
-|       +-- journal-N.md    # Session records (max 2000 lines)
+|-- tasks/                  # Task tracking (unified)
+
+aim-workspace/               # "AI Memory" - session history (directly visible)
+|-- index.md                # All developers' progress
++-- {developer}/            # Per-developer directory
+    |-- index.md            # Personal progress index
+    +-- journal-N.md        # Session records (max 2000 lines)
 |-- tasks/                  # Task tracking (unified)
 |   +-- {MM}-{DD}-{slug}/   # Task directory
 |       |-- task.json       # Task metadata
@@ -116,7 +118,7 @@ AI needs the same onboarding - but compressed into seconds at session start.
 **WHAT IT ACTUALLY DOES**:
 1. Reads developer identity (who am I in this project?)
 2. Checks git status (what branch? uncommitted changes?)
-3. Reads recent session history from `workspace/` (what happened before?)
+3. Reads recent session history from `aim-workspace/` (what happened before?)
 4. Identifies active features (what's in progress?)
 5. Understands current project state before making any changes
 
@@ -199,7 +201,7 @@ The `/check-*` commands focus on code quality within a single layer. But real ch
 All the context AI built during this session will be lost when session ends. The next session's `/aim:start` needs this information.
 
 **WHAT IT ACTUALLY DOES**:
-1. Records session summary to `workspace/{developer}/journal-N.md`
+1. Records session summary to `aim-workspace/{developer}/journal-N.md`
 2. Captures what was done, learned, and what's remaining
 3. Updates index files for quick lookup
 
