@@ -2,7 +2,7 @@
  * Remote template fetcher for AIM Studio CLI
  *
  * Fetches spec templates from the official docs repository:
- * https://github.com/mindfold-ai/docs/tree/main/marketplace
+ * https://github.com/five-five0909/aim-studio/tree/main/marketplace
  */
 
 import fs from "node:fs";
@@ -15,9 +15,9 @@ import { downloadTemplate } from "giget";
 // =============================================================================
 
 const TEMPLATE_INDEX_URL =
-  "https://raw.githubusercontent.com/mindfold-ai/docs/main/marketplace/index.json";
+  "https://raw.githubusercontent.com/five-five0909/aim-studio/main/marketplace/index.json";
 
-const TEMPLATE_REPO = "gh:mindfold-ai/docs";
+const TEMPLATE_REPO = "gh:five-five0909/aim-studio";
 
 /** Map template type to installation path */
 const INSTALL_PATHS: Record<string, string> = {

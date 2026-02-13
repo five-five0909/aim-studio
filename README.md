@@ -151,9 +151,9 @@ aim parallel
 
 欢迎提交 Issue 或 PR！
 
-- [GitHub 仓库](https://github.com/mindfold-ai/trellis)
+- [GitHub 仓库](https://github.com/five-five0909/aim-studio)
 - [开发指南](CLAUDE.md)
 
 ## 📄 许可证
 
-MIT License. Made by [Mindfold LLC](https://github.com/mindfold-ai).
+MIT License. Made by [AIM Studio](https://github.com/five-five0909).

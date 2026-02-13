@@ -144,7 +144,7 @@ bin/trellis.js → bin/aim.js
 | `trellis` | `aim` | CLI 命令名、目录名 `.trellis/` → `.aim-studio/` |
 | `Trellis` | `AIM Studio` | 项目显示名 |
 | `@mindfoldhq/trellis` | `@your-scope/aim-studio` | npm 包名 |
-| `mindfold-ai/Trellis` | 你的 GitHub 仓库路径 | Git URL |
+| `mindfold-ai/Trellis` | five-five0909/aim-studio | Git URL |
 
 > ⚠️ **注意**：这一步必须仔细审查每个替换，避免误改变量名或语义不同的 "trellis"。
 
