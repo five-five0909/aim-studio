@@ -44,7 +44,7 @@ Code contributions are welcome for:
 
 - Node.js 18.0.0+
 - pnpm
-- Python 3.8+ (for hooks)
+- Python 3.8+ (for scripts)
 - Bash (for scripts)
 
 ### Getting Started
@@ -85,7 +85,7 @@ aim-studio/
 ├── src/                    # TypeScript source code
 │   ├── cli/                # CLI entry point
 │   ├── commands/           # CLI commands (init, update)
-│   ├── configurators/      # Template application logic
+│   ├── configurators/     # Template application logic
 │   ├── templates/          # Templates copied to user projects
 │   └── utils/             # Utility functions
 ├── .claude/                # AIM Studio's own Claude Code config
@@ -98,8 +98,6 @@ aim-studio/
 │   └── workspace/         # Workspace directory
 └── dist/                   # Build output
 ```
-
-> **Important:** When modifying `.claude/`, `.aim-studio/`, or `.cursor/`, check if the same changes need to be applied to `src/templates/`. The project uses its own config files, but templates are what gets installed to user projects.
 
 ## Commit Guidelines
 
@@ -119,8 +117,8 @@ type(scope): description
 
 **Examples:**
 ```
-feat(cli): add --dry-run flag to init command
-fix(hooks): resolve context injection for nested tasks
+feat(export): add duration selection for video export
+fix(legitimize): resolve AI content check issue
 docs(readme): update quick start instructions
 ```
 

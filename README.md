@@ -4,9 +4,9 @@
 
 # AIM Studio
 
-> **AI 驱动的智能开发工作流 CLI 工具**
+> **AI 驱动的智能漫剧创作 CLI 工具**
 >
-> *让规范成为习惯，让开发更高效*
+> *让创作更高效，让视频生成更简单*
 
 [![npm version](https://img.shields.io/npm/v/@fifine/aim-studio.svg?style=flat-square&color=blue)](https://www.npmjs.com/package/@fifine/aim-studio)
 [![license](https://img.shields.io/badge/license-MIT-green.svg?style=flat-square)](LICENSE)
@@ -15,23 +15,24 @@
 
 ## 📖 简介
 
-**AIM Studio** 是一个 AI 驱动的智能开发工作流 CLI 工具，专注于解决 AI 辅助开发中的核心痛点：
+**AIM Studio** 是一个 AI 驱动的智能漫剧创作 CLI 工具，专注于帮助用户：
 
-- **思考先于编码**：通过 Thinking Guides 和 Ralph Loop 避免"修 A 坏 B"的循环
-- **上下文持久化**：通过 Spec Injection 将规则注入每个任务，而非依赖记忆
-- **跨层思考**：通过 Cross-Layer Guide 梳理数据流和模块边界
+- **创作剧本**：使用 AI 辅助创作小说/漫画改编剧本
+- **生成视频**：导出符合 Seedance 格式的提示词
+- **保持一致**：AI 检查剧情一致性和角色设定
+- **智能合规**：AI 自动检测并修复违规内容
 
-无论你是使用 Claude Code、Cursor 还是其他 AI 助手，AIM Studio 都能确保 AI 始终遵循你项目的开发规范，彻底解决 AI "写着写着就忘了约定" 的痛点。
+无论你是创作者、UP主还是视频制作者，AIM Studio 都能帮助你快速生成 AI 视频内容。
 
 ## ✨ 核心特性
 
 | 特性 | 解决的问题 |
 | --- | --- |
-| **全自动规范注入 (Spec Injection)** | 项目规范自动注入 AI 上下文。写一次，永久生效。 |
-| **多类型项目支持** | 支持 CLI、前端、后端、全栈、漫剧创作等多种项目类型 |
-| **智能项目识别** | 自动检测项目类型，生成对应的规范模板 |
-| **任务持久化** | 自动记录工作日志，AI 永远记得上一次的进度 |
-| **多 Agent 协作** | 支持 Plan-Implement-Check 分离，复杂任务更可靠 |
+| **AI 剧本创作** | 使用 AI 辅助创作，灵感不断 |
+| **剧情一致性检查** | 自动检查角色行为、剧情逻辑是否一致 |
+| **违规内容检测** | AI 检测并修复真人素材、版权内容、敏感内容 |
+| **多风格支持** | 支持写实、邵氏武侠、好莱坞硬派等多种视频风格 |
+| **一键导出** | 导出纯文本提示词，直接粘贴到 Seedance |
 
 ## 🚀 快速开始
 
@@ -45,13 +46,13 @@ npm i @fifine/aim-studio -g
 
 ```bash
 # 进入你的项目目录
-cd my-project
+cd my-story-project
 
 # 初始化 AIM Studio
 aim init -u 你的名字
 ```
 
-### 3. 开始工作
+### 3. 开始创作
 
 ```bash
 # 在 Claude Code 中使用
@@ -64,15 +65,20 @@ aim init -u 你的名字
 
 ```
 项目根目录/
-├── aim-workspace/          # 你的工作空间（创作内容存放处）
+├── aim-workspace/          # 你的工作空间（创作记录）
 ├── .aim-studio/           # 系统配置（自动生成）
-│   ├── spec/              # 项目规范
-│   │   ├── cli/           # CLI 开发规范
-│   │   ├── frontend/      # 前端开发规范
-│   │   ├── backend/       # 后端开发规范
+│   ├── spec/              # 创作规范
 │   │   └── story/         # 漫剧创作规范
-│   ├── tasks/             # 任务追踪
-│   ├── scripts/           # 自动化脚本
+│   │       ├── index.md      # 规范索引
+│   │       ├── character.md  # 角色设定
+│   │       ├── world.md      # 世界观设定
+│   │       ├── script.md     # 剧本规范
+│   │       └── style-guide.md # 视频风格配置
+│   ├── tasks/             # 剧集存储
+│   │   └── EP01/          # 第1集
+│   │       └── 场景1.md    # 场景文件
+│   ├── scripts/            # Python 脚本
+│   │   └── export.py      # 导出脚本
 │   └── workflow.md        # 工作流文档
 └── ...
 ```
@@ -81,37 +87,49 @@ aim init -u 你的名字
 
 ### Slash 命令（在 AI 对话框中使用）
 
-| 命令 | 说明 | 适用场景 |
+| 命令 | 说明 |
+| --- | --- |
+| `/aim:start` | 开始创作会话 |
+| `/aim:story` | 启动漫剧创作模式 |
+| `/aim:portrait` | 生成角色肖像提示词 |
+| `/aim:visualize` | 生成场景图片提示词 |
+| `/aim:check-story` | 检查剧情一致性 |
+| `/aim:legitimize` | AI 检查并修复违规内容 |
+| `/aim:export` | 导出 Seedance 视频提示词 |
+| `/aim:finish-work` | 完成工作并记录 |
+
+## 🎬 创作流程
+
+```
+1. aim init -u 名字              → 初始化项目
+2. /aim:start                   → 开始会话
+3. 设置视频风格                  → 选择风格（写实/武侠/好莱坞/日剧/韩剧）
+4. /aim:story                   → 开始创作剧本
+5. /aim:portrait 角色名          → 生成角色肖像
+6. /aim:legitimize --check      → 检查违规内容
+7. /aim:legitimize --fix        → 自动修复违规
+8. /aim:check-story             → 检查剧情一致性
+9. /aim:export --ep 1           → 导出视频提示词
+10. 复制到 Seedance             → 生成视频
+11. /aim:finish-work            → 完成记录
+```
+
+## 🎨 视频风格
+
+| 风格 | 特点 | 适用场景 |
 | --- | --- | --- |
-| `/aim:start` | 开始工作会话 | 日常开发、维护 |
-| `/aim:story` | 漫剧创作模式 | 创作新故事（仅 story 项目） |
-| `/aim:portrait` | 生成角色肖像 | 创建角色形象（仅 story 项目） |
-| `/aim:visualize` | 生成图片提示词 | 分镜描述转 AI 绘画（仅 story 项目） |
-| `/aim:check-story` | 检查剧情一致性 | 剧情审核（仅 story 项目） |
-| `/aim:export` | 导出剧本 | 导出为 Seedance 格式（仅 story 项目） |
-| `/aim:finish-work` | 完成工作并记录 | 每次结束工作前必做 |
-
-> **注意**：漫剧相关命令（story/portrait/visualize/check-story/export）仅在 `story` 类型项目中可用。
-
-## 🎯 项目类型
-
-AIM Studio 支持自动检测以下项目类型：
-
-| 类型 | 检测特征 | 规范目录 |
-| --- | --- | --- |
-| CLI | `bin/` 目录 | `spec/cli/` |
-| 前端 | `package.json`、前端框架 | `spec/frontend/` |
-| 后端 | `requirements.txt`、`go.mod` 等 | `spec/backend/` |
-| 全栈 | 既有前端又有后端 | `spec/frontend/` + `spec/backend/` |
-| 漫剧创作 | `spec/story/` | `spec/story/` |
+| **正常/写实** | 真实自然、无滤镜 | 现代剧、现实主义 |
+| **邵氏/港新武侠** | 武侠传统、动作想象 | 古装武侠、江湖 |
+| **好莱坞硬派** | 真实打斗、英雄主义 | 动作片、超级英雄 |
+| **日本时代剧** | 暴力美学、文化深度 | 武士片、历史剧 |
+| **韩国犯罪片** | 写实暴力、社会批判 | 犯罪、悬疑、社会剧 |
 
 ## 🛠️ 终端命令
 
 | 命令 | 说明 |
 | --- | --- |
-| `aim init` | 初始化 AIM Studio 项目 |
+| `aim init -u <名字>` | 初始化漫剧创作项目 |
 | `aim update` | 更新项目配置到最新版本 |
-| `aim task create <name>` | 创建新任务 |
 
 ## 🤝 参与贡献
 
