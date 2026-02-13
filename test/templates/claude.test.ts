@@ -1,0 +1,89 @@
+import { describe, expect, it } from "vitest";
+import {
+  settingsTemplate,
+  getAllCommands,
+  getAllAgents,
+  getAllHooks,
+  getSettingsTemplate,
+} from "../../src/templates/claude/index.js";
+
+// =============================================================================
+// settingsTemplate — module-level constant
+// =============================================================================
+
+describe("settingsTemplate", () => {
+  it("is valid JSON", () => {
+    expect(() => JSON.parse(settingsTemplate)).not.toThrow();
+  });
+
+  it("is a non-empty string", () => {
+    expect(settingsTemplate.length).toBeGreaterThan(0);
+  });
+});
+
+// =============================================================================
+// getAllCommands — reads command templates from filesystem
+// =============================================================================
+
+describe("getAllCommands", () => {
+  it("returns non-empty list (templates exist)", () => {
+    const commands = getAllCommands();
+    expect(commands.length).toBeGreaterThan(0);
+  });
+
+  it("each command has name and content", () => {
+    const commands = getAllCommands();
+    for (const cmd of commands) {
+      expect(cmd.name.length).toBeGreaterThan(0);
+      expect(cmd.content.length).toBeGreaterThan(0);
+    }
+  });
+
+  it("command names do not include .md extension", () => {
+    const commands = getAllCommands();
+    for (const cmd of commands) {
+      expect(cmd.name).not.toContain(".md");
+    }
+  });
+});
+
+// =============================================================================
+// getAllAgents — reads agent templates
+// =============================================================================
+
+describe("getAllAgents", () => {
+  it("each agent has name and content", () => {
+    const agents = getAllAgents();
+    for (const agent of agents) {
+      expect(agent.name.length).toBeGreaterThan(0);
+      expect(agent.content.length).toBeGreaterThan(0);
+    }
+  });
+});
+
+// =============================================================================
+// getAllHooks — reads hook templates
+// =============================================================================
+
+describe("getAllHooks", () => {
+  it("each hook has targetPath and content", () => {
+    const hooks = getAllHooks();
+    for (const hook of hooks) {
+      expect(hook.targetPath.startsWith("hooks/")).toBe(true);
+      expect(hook.content.length).toBeGreaterThan(0);
+    }
+  });
+});
+
+// =============================================================================
+// getSettingsTemplate — returns settings as HookTemplate
+// =============================================================================
+
+describe("getSettingsTemplate", () => {
+  it("returns correct shape with valid JSON", () => {
+    const result = getSettingsTemplate();
+    expect(result.targetPath).toBe("settings.json");
+    expect(result.content.length).toBeGreaterThan(0);
+    expect(() => JSON.parse(result.content)).not.toThrow();
+  });
+});

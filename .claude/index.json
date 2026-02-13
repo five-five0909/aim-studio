@@ -1,0 +1,107 @@
+{
+  "version": "2026-02-13",
+  "project": {
+    "name": "AIM Studio",
+    "description": "AI-driven development workflow CLI tool (formerly Trellis)",
+    "language": "TypeScript",
+    "packageManager": "pnpm"
+  },
+  "modules": [
+    {
+      "path": "src/cli",
+      "entry": "index.ts",
+      "description": "CLI entry and command parsing",
+      "interfaces": ["Command", "init", "update"],
+      "hasTests": false
+    },
+    {
+      "path": "src/commands",
+      "entry": "init.ts, update.ts",
+      "description": "Core commands (init, update)",
+      "interfaces": ["init()", "update()"],
+      "hasTests": true,
+      "testPath": "test/commands/"
+    },
+    {
+      "path": "src/configurators",
+      "entry": "index.ts",
+      "description": "AI tool configuration generators (Claude Code)",
+      "interfaces": ["configurePlatform()", "getInitToolChoices()"],
+      "hasTests": true,
+      "testPath": "test/configurators/"
+    },
+    {
+      "path": "src/templates",
+      "entry": "aim/index.ts, claude/index.ts, markdown/index.ts",
+      "description": "Template system (Python scripts, Markdown specs, Claude config)",
+      "interfaces": ["extractFrontmatter()", "getAimTemplatePath()"],
+      "hasTests": true,
+      "testPath": "test/templates/"
+    },
+    {
+      "path": "src/utils",
+      "entry": "project-detector.ts, template-hash.ts, template-fetcher.ts",
+      "description": "Utility functions",
+      "interfaces": ["detectProjectType()", "computeHash()", "initializeHashes()"],
+      "hasTests": true,
+      "testPath": "test/utils/"
+    },
+    {
+      "path": "src/types",
+      "entry": "ai-tools.ts, migration.ts",
+      "description": "TypeScript type definitions",
+      "interfaces": ["AITool", "CliFlag", "MigrationItem"],
+      "hasTests": true,
+      "testPath": "test/types/"
+    },
+    {
+      "path": "src/constants",
+      "entry": "version.ts, paths.ts",
+      "description": "Constants (VERSION, DIR_NAMES, PATHS)",
+      "interfaces": ["VERSION", "PACKAGE_NAME", "DIR_NAMES", "PATHS"],
+      "hasTests": true,
+      "testPath": "test/constants/"
+    },
+    {
+      "path": "src/migrations",
+      "entry": "index.ts",
+      "description": "Version migrations and manifest system",
+      "interfaces": ["getMigrationsForVersion()", "getAllMigrations()"],
+      "hasTests": true,
+      "testPath": "test/migrations/"
+    }
+  ],
+  "coverage": {
+    "estimatedTotalFiles": 25,
+    "scannedFiles": 25,
+    "coveragePercentage": 100,
+    "hasTests": true,
+    "testCommand": "pnpm test",
+    "modulesWithTests": 7,
+    "modulesWithoutTests": 1,
+    "untestedModules": ["src/cli/"]
+  },
+  "ignored": {
+    "topDirs": [
+      "node_modules",
+      "dist",
+      ".git",
+      "aim-prompt",
+      ".aim-studio"
+    ],
+    "reasons": {
+      "node_modules": "Package dependencies",
+      "dist": "Build output",
+      ".git": "Git repository",
+      "aim-prompt": "User prompts directory",
+      ".aim-studio": "Workflow output directory"
+    }
+  },
+  "nextSteps": [
+    "建议添加 src/cli/ 的单元测试",
+    "可考虑增加更多集成测试覆盖 edge cases",
+    "检查 src/migrations/manifests/ 中的迁移完整性"
+  ],
+  "truncated": false,
+  "notes": "项目结构清晰，已完成全量扫描。所有核心模块均有测试覆盖。"
+}
