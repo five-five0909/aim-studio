@@ -9,8 +9,8 @@
 export const DIR_NAMES = {
   /** Root workflow directory */
   WORKFLOW: ".aim-studio",
-  /** Workspace directory (under .aim-studio/) - developer work areas */
-  WORKSPACE: "workspace",
+  /** Workspace directory (directly under project root) - developer work areas */
+  WORKSPACE: "aim-workspace",
   /** Tasks directory (under .aim-studio/) - unified task storage */
   TASKS: "tasks",
   /** Archive directory (under tasks/) */
@@ -41,8 +41,8 @@ export const FILE_NAMES = {
 export const PATHS = {
   /** .aim-studio/ */
   WORKFLOW: DIR_NAMES.WORKFLOW,
-  /** .aim-studio/workspace/ */
-  WORKSPACE: `${DIR_NAMES.WORKFLOW}/${DIR_NAMES.WORKSPACE}`,
+  /** aim-workspace/ (directly under project root) */
+  WORKSPACE: DIR_NAMES.WORKSPACE,
   /** .aim-studio/tasks/ */
   TASKS: `${DIR_NAMES.WORKFLOW}/${DIR_NAMES.TASKS}`,
   /** .aim-studio/spec/ */
@@ -59,7 +59,7 @@ export const PATHS = {
 
 /**
  * Get developer's workspace directory path
- * @example getWorkspaceDir("john") => ".aim-studio/workspace/john"
+ * @example getWorkspaceDir("john") => "aim-workspace/john"
  */
 export function getWorkspaceDir(developer: string): string {
   return `${PATHS.WORKSPACE}/${developer}`;

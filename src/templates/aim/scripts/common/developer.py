@@ -53,7 +53,8 @@ def init_developer(name: str, repo_root: Path | None = None) -> bool:
         repo_root = get_repo_root()
 
     dev_file = repo_root / DIR_WORKFLOW / FILE_DEVELOPER
-    workspace_dir = repo_root / DIR_WORKFLOW / DIR_WORKSPACE / name
+    # workspace 目录直接在项目根目录下，不在 .aim-studio 中
+    workspace_dir = repo_root / DIR_WORKSPACE / name
 
     # Create .developer file
     initialized_at = datetime.now().isoformat()
