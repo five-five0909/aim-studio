@@ -12,7 +12,7 @@ import { compareVersions } from "../utils/compare-versions.js";
 export { VERSION, PACKAGE_NAME };
 
 /**
- * Check if a Trellis update is available (compare project version with CLI version)
+ * Check if an AIM Studio update is available (compare project version with CLI version)
  */
 function checkForUpdates(cwd: string): void {
   const versionFile = path.join(cwd, DIR_NAMES.WORKFLOW, ".version");
@@ -27,10 +27,10 @@ function checkForUpdates(cwd: string): void {
     // CLI is newer than project - update available
     console.log(
       chalk.yellow(
-        `\n⚠️  Trellis update available: ${projectVersion} → ${cliVersion}`,
+        `\n⚠️  AIM Studio update available: ${projectVersion} → ${cliVersion}`,
       ),
     );
-    console.log(chalk.gray(`   Run: trellis update\n`));
+    console.log(chalk.gray(`   Run: aim update\n`));
   } else if (comparison < 0) {
     // CLI is older than project - CLI needs updating
     console.log(
@@ -51,15 +51,13 @@ if (fs.existsSync(path.join(cwd, DIR_NAMES.WORKFLOW))) {
 const program = new Command();
 
 program
-  .name("trellis")
-  .description(
-    "AI-assisted development workflow framework for Cursor, Claude Code and more",
-  )
+  .name("aim")
+  .description("AI-powered comic/novel creation workflow CLI for Claude Code")
   .version(VERSION, "-v, --version", "output the version number");
 
 program
   .command("init")
-  .description("Initialize trellis in the current project")
+  .description("Initialize AIM Studio in the current project")
   .option("--claude", "Include Claude Code commands")
   .option("-y, --yes", "Skip prompts and use defaults")
   .option(
@@ -72,7 +70,10 @@ program
     "-t, --template <name>",
     "Use a remote spec template (e.g., electron-fullstack)",
   )
-  .option("--overwrite", "Overwrite existing spec directory when using template")
+  .option(
+    "--overwrite",
+    "Overwrite existing spec directory when using template",
+  )
   .option("--append", "Only add missing files when using template")
   .action(async (options: Record<string, unknown>) => {
     try {
@@ -88,7 +89,7 @@ program
 
 program
   .command("update")
-  .description("Update trellis configuration and commands to latest version")
+  .description("Update AIM Studio configuration and commands to latest version")
   .option("--dry-run", "Preview changes without applying them")
   .option("-f, --force", "Overwrite all changed files without asking")
   .option("-s, --skip-all", "Skip all changed files without asking")

@@ -64,24 +64,6 @@ import {
 } from "../templates/aim/index.js";
 
 import {
-  guidesIndexContent,
-  guidesCrossLayerThinkingGuideContent,
-  guidesCodeReuseThinkingGuideContent,
-  // Backend structure (multi-doc)
-  backendIndexContent,
-  backendDirectoryStructureContent,
-  backendDatabaseGuidelinesContent,
-  backendLoggingGuidelinesContent,
-  backendQualityGuidelinesContent,
-  backendErrorHandlingContent,
-  // Frontend structure (multi-doc)
-  frontendIndexContent,
-  frontendDirectoryStructureContent,
-  frontendTypeSafetyContent,
-  frontendHookGuidelinesContent,
-  frontendComponentGuidelinesContent,
-  frontendQualityGuidelinesContent,
-  frontendStateManagementContent,
   // Workspace
   workspaceIndexContent,
   // Story spec templates
@@ -182,64 +164,6 @@ function collectTemplateFiles(cwd: string): Map<string, string> {
 
   // Workspace index (template file, not user data)
   files.set(`${PATHS.WORKSPACE}/index.md`, workspaceIndexContent);
-
-  // Spec - guides
-  files.set(`${PATHS.SPEC}/guides/index.md`, guidesIndexContent);
-  files.set(
-    `${PATHS.SPEC}/guides/cross-layer-thinking-guide.md`,
-    guidesCrossLayerThinkingGuideContent,
-  );
-  files.set(
-    `${PATHS.SPEC}/guides/code-reuse-thinking-guide.md`,
-    guidesCodeReuseThinkingGuideContent,
-  );
-
-  // Spec - backend (created if missing, protected by hash tracking if modified)
-  files.set(`${PATHS.SPEC}/backend/index.md`, backendIndexContent);
-  files.set(
-    `${PATHS.SPEC}/backend/directory-structure.md`,
-    backendDirectoryStructureContent,
-  );
-  files.set(
-    `${PATHS.SPEC}/backend/database-guidelines.md`,
-    backendDatabaseGuidelinesContent,
-  );
-  files.set(
-    `${PATHS.SPEC}/backend/logging-guidelines.md`,
-    backendLoggingGuidelinesContent,
-  );
-  files.set(
-    `${PATHS.SPEC}/backend/quality-guidelines.md`,
-    backendQualityGuidelinesContent,
-  );
-  files.set(
-    `${PATHS.SPEC}/backend/error-handling.md`,
-    backendErrorHandlingContent,
-  );
-
-  // Spec - frontend (created if missing, protected by hash tracking if modified)
-  files.set(`${PATHS.SPEC}/frontend/index.md`, frontendIndexContent);
-  files.set(
-    `${PATHS.SPEC}/frontend/directory-structure.md`,
-    frontendDirectoryStructureContent,
-  );
-  files.set(`${PATHS.SPEC}/frontend/type-safety.md`, frontendTypeSafetyContent);
-  files.set(
-    `${PATHS.SPEC}/frontend/hook-guidelines.md`,
-    frontendHookGuidelinesContent,
-  );
-  files.set(
-    `${PATHS.SPEC}/frontend/component-guidelines.md`,
-    frontendComponentGuidelinesContent,
-  );
-  files.set(
-    `${PATHS.SPEC}/frontend/quality-guidelines.md`,
-    frontendQualityGuidelinesContent,
-  );
-  files.set(
-    `${PATHS.SPEC}/frontend/state-management.md`,
-    frontendStateManagementContent,
-  );
 
   // Platform-specific templates (only for configured platforms)
   for (const platformId of platforms) {
@@ -1624,7 +1548,7 @@ export async function update(options: UpdateOptions): Promise<void> {
           dev_type: null,
           scope: "migration",
           priority: "P1",
-          creator: "trellis-update",
+          creator: "aim-update",
           assignee: currentDeveloper,
           createdAt: todayStr,
           completedAt: null,
@@ -1653,7 +1577,7 @@ export async function update(options: UpdateOptions): Promise<void> {
         prdContent += `**From Version**: ${projectVersion}\n`;
         prdContent += `**To Version**: ${cliVersion}\n`;
         prdContent += `**Assignee**: ${currentDeveloper}\n\n`;
-        prdContent += `## Status\n\n- [ ] Review migration guide\n- [ ] Update custom files\n- [ ] Run \`trellis update --migrate\`\n- [ ] Test workflows\n\n`;
+        prdContent += `## Status\n\n- [ ] Review migration guide\n- [ ] Update custom files\n- [ ] Run \`aim update --migrate\`\n- [ ] Test workflows\n\n`;
 
         for (const {
           version,

@@ -119,7 +119,6 @@ const BACKEND_DEPS = [
 const CLI_INDICATORS = [
   // Node.js CLI tools
   "bin/aim.js",
-  "bin/trellis.js",
   "bin/cli.js",
   // Python CLI tools (click, typer, argparse)
   "pyproject.toml", // Check for CLI tools in dependencies

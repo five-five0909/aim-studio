@@ -162,8 +162,8 @@ python3 ./.aim-studio/scripts/task.py archive 00-bootstrap-guidelines
 After completing this task:
 
 1. AI will write code that matches your project style
-2. Relevant `/trellis:before-*-dev` commands will inject real context
-3. `/trellis:check-*` commands will validate against your actual standards
+2. Relevant `/aim:before-*-dev` commands will inject real context
+3. `/aim:check-*` commands will validate against your actual standards
 4. Future developers (human or AI) will onboard faster
 """
 
@@ -229,7 +229,7 @@ def write_task_json(task_dir: Path, developer: str, project_type: str) -> None:
         "commit": None,
         "subtasks": subtasks,
         "relatedFiles": related_files,
-        "notes": f"First-time setup task created by trellis init ({project_type} project)",
+        "notes": f"First-time setup task created by aim init ({project_type} project)",
     }
 
     task_json = task_dir / "task.json"

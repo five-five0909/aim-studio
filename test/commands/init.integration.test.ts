@@ -81,8 +81,8 @@ describe("init() integration", () => {
     expect(fs.existsSync(path.join(tmpDir, ".agents", "skills"))).toBe(false);
   });
 
-  // Test #3 related to multi-platform selection is no longer relevant as we only have Claude.
-  // We can remove it or repurpose it to ensure passing ignored flags doesn't crash but also doesn't create files.
+  // Test #3: Valid platforms create directories, invalid ones don't
+  // Claude and OpenCode are valid platforms; cursor is not.
 
   it("#3 ignored flags do not create directories", async () => {
     // @ts-ignore - explicitly testing ignored flags if they are still passed despite type definition changes
@@ -90,7 +90,7 @@ describe("init() integration", () => {
 
     expect(fs.existsSync(path.join(tmpDir, ".claude"))).toBe(true);
     expect(fs.existsSync(path.join(tmpDir, ".cursor"))).toBe(false);
-    expect(fs.existsSync(path.join(tmpDir, ".opencode"))).toBe(false);
+    expect(fs.existsSync(path.join(tmpDir, ".opencode"))).toBe(true);
   });
 
   it("#4 force mode overwrites previously modified files", async () => {
@@ -173,17 +173,15 @@ describe("init() integration", () => {
     expect(Object.keys(hashes).length).toBeGreaterThan(0);
   });
 
-  it("#10 creates spec templates for backend, frontend, and guides", async () => {
+  it("#10 creates spec templates for story project type", async () => {
     await init({ yes: true });
 
     const specDir = path.join(tmpDir, PATHS.SPEC);
-    expect(fs.existsSync(path.join(specDir, "backend", "index.md"))).toBe(
-      true,
-    );
-    expect(fs.existsSync(path.join(specDir, "frontend", "index.md"))).toBe(
-      true,
-    );
-    expect(fs.existsSync(path.join(specDir, "guides", "index.md"))).toBe(true);
+    // Default project type is "story" — only story spec templates are created
     expect(fs.existsSync(path.join(specDir, "story", "index.md"))).toBe(true);
+    expect(fs.existsSync(path.join(specDir, "story", "character.md"))).toBe(true);
+    expect(fs.existsSync(path.join(specDir, "story", "world.md"))).toBe(true);
+    expect(fs.existsSync(path.join(specDir, "story", "script.md"))).toBe(true);
+    expect(fs.existsSync(path.join(specDir, "story", "style-guide.md"))).toBe(true);
   });
 });

@@ -145,12 +145,12 @@ describe("regression: Windows path separator (beta.12)", () => {
 // =============================================================================
 
 describe("regression: task directory paths (0.2.14, 0.2.15, beta.13)", () => {
-  it("[0.2.15] PATHS.TASKS is .trellis/tasks (not .trellis/workspace/*/tasks)", () => {
+  it("[0.2.15] PATHS.TASKS is .aim-studio/tasks (not .aim-studio/workspace/*/tasks)", () => {
     expect(PATHS.TASKS).toBe(".aim-studio/tasks");
     expect(PATHS.TASKS).not.toContain("workspace");
   });
 
-  it("[0.2.14] Claude agent templates do not contain hardcoded .trellis/workspace/*/tasks/ paths", () => {
+  it("[0.2.14] Claude agent templates do not contain hardcoded .aim-studio/workspace/*/tasks/ paths", () => {
     const agents = getClaudeAgents();
     for (const agent of agents) {
       expect(agent.content).not.toMatch(/\.aim-studio\/workspace\/[^/]+\/tasks\//);
@@ -291,7 +291,7 @@ describe("regression: update only configured platforms (beta.16)", () => {
 // =============================================================================
 
 describe("regression: shell to Python migration (beta.0)", () => {
-  it("[beta.0] no .sh scripts remain in trellis templates", () => {
+  it("[beta.0] no .sh scripts remain in aim templates", () => {
     const scripts = getAllScripts();
     for (const [name] of scripts) {
       expect(name.endsWith(".sh"), `${name} should not end with .sh`).toBe(false);
@@ -474,7 +474,7 @@ describe("regression: migration manifest consistency", () => {
   it("[0.2.14] command namespace migration renames exist", () => {
     const migrations = getMigrationsForVersion("0.2.13", "0.2.14");
     expect(migrations.length).toBeGreaterThan(0);
-    // Should include commands moved to trellis/ subdirectory
+    // Should include commands moved to aim/ subdirectory
     const claudeRenames = migrations.filter(
       (m) => m.type === "rename" && m.from.startsWith(".claude/commands/"),
     );

@@ -37,11 +37,11 @@ describe("CONFIG_DIRS", () => {
 });
 
 describe("ALL_MANAGED_DIRS", () => {
-  it("starts with .trellis", () => {
+  it("starts with .aim-studio", () => {
     expect(ALL_MANAGED_DIRS[0]).toBe(".aim-studio");
   });
 
-  it("contains .trellis plus all config dirs", () => {
+  it("contains .aim-studio plus all config dirs", () => {
     expect(ALL_MANAGED_DIRS).toEqual([".aim-studio", ...CONFIG_DIRS]);
   });
 
@@ -67,8 +67,8 @@ describe("isManagedPath", () => {
     expect(isManagedPath(".aim-studio")).toBe(true);
   });
 
-  // Positive: .trellis hardcoded paths
-  it("matches .trellis sub-paths", () => {
+  // Positive: .aim-studio hardcoded paths
+  it("matches .aim-studio sub-paths", () => {
     expect(isManagedPath(".aim-studio/spec")).toBe(true);
     expect(isManagedPath(".aim-studio/tasks/some-task")).toBe(true);
   });
@@ -76,7 +76,7 @@ describe("isManagedPath", () => {
   // Boundary: prefix-similar but NOT a sub-path (no / separator after name)
   it("rejects prefix-similar non-sub-paths", () => {
     expect(isManagedPath(".claude-backup")).toBe(false);
-    expect(isManagedPath(".trellis-old")).toBe(false);
+    expect(isManagedPath(".aim-studio-old")).toBe(false);
     expect(isManagedPath(".agents/skills-backup")).toBe(false);
   });
 
@@ -88,7 +88,7 @@ describe("isManagedPath", () => {
   // Boundary: path traversal
   it("rejects path traversal", () => {
     expect(isManagedPath("../.claude")).toBe(false);
-    expect(isManagedPath("../.trellis/spec")).toBe(false);
+    expect(isManagedPath("../.aim-studio/spec")).toBe(false);
   });
 
   // Boundary: unrelated directories
@@ -122,13 +122,13 @@ describe("isManagedRootDir", () => {
     }
   });
 
-  it("matches .trellis", () => {
+  it("matches .aim-studio", () => {
     expect(isManagedRootDir(".aim-studio")).toBe(true);
   });
 
   it("rejects sub-paths (not a root dir)", () => {
     expect(isManagedRootDir(".claude/commands")).toBe(false);
-    expect(isManagedRootDir(".trellis/spec")).toBe(false);
+    expect(isManagedRootDir(".aim-studio/spec")).toBe(false);
   });
 
   it("rejects unrelated directories", () => {

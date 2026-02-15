@@ -2,12 +2,13 @@
  * Claude Code templates
  *
  * These are GENERIC templates for user projects.
- * Do NOT use Trellis project's own .claude/ directory (which may be customized).
+ * Do NOT use AIM Studio project's own .claude/ directory (which may be customized).
  *
  * Directory structure:
  *   claude/
  *   ├── commands/       # Slash commands
  *   ├── agents/         # Multi-agent pipeline agents
+ *   ├── skills/         # Specialized skill definitions
  *   ├── hooks/          # Context injection hooks
  *   └── settings.json   # Settings configuration
  */
@@ -55,6 +56,14 @@ export interface AgentTemplate {
  */
 export interface HookTemplate {
   targetPath: string;
+  content: string;
+}
+
+/**
+ * Skill template with skill name and content
+ */
+export interface SkillTemplate {
+  name: string;
   content: string;
 }
 
@@ -119,4 +128,25 @@ export function getSettingsTemplate(): HookTemplate {
     targetPath: "settings.json",
     content: settingsTemplate,
   };
+}
+
+/**
+ * Get all skill templates
+ * Skills are stored in skills/{name}/SKILL.md directories
+ */
+export function getAllSkills(): SkillTemplate[] {
+  const skills: SkillTemplate[] = [];
+  const skillDirs = listFiles("skills");
+
+  for (const dir of skillDirs) {
+    const skillFile = `skills/${dir}/SKILL.md`;
+    try {
+      const content = readTemplate(skillFile);
+      skills.push({ name: dir, content });
+    } catch {
+      // Skip directories without SKILL.md
+    }
+  }
+
+  return skills;
 }

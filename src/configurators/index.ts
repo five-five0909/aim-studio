@@ -1,7 +1,7 @@
 /**
  * Platform Registry — Single source of truth for platform functions and derived helpers
  *
- * Simplified to only support Claude Code.
+ * Supports Claude Code and OpenCode.
  */
 
 import fs from "node:fs";
@@ -10,6 +10,7 @@ import { AI_TOOLS, type AITool, type CliFlag } from "../types/ai-tools.js";
 
 // Platform configurators
 import { configureClaude } from "./claude.js";
+import { configureOpencode } from "./opencode.js";
 
 // Shared utilities
 import { resolvePlaceholders } from "./shared.js";
@@ -19,8 +20,15 @@ import {
   getAllAgents as getClaudeAgents,
   getAllCommands as getClaudeCommands,
   getAllHooks as getClaudeHooks,
+  getAllSkills as getClaudeSkills,
   getSettingsTemplate as getClaudeSettings,
 } from "../templates/claude/index.js";
+
+import {
+  getAllAgents as getOpencodeAgents,
+  getAllCommands as getOpencodeCommands,
+  getAllPlugins as getOpencodePlugins,
+} from "../templates/opencode/index.js";
 
 // =============================================================================
 // Platform Functions Registry
@@ -41,7 +49,7 @@ const PLATFORM_FUNCTIONS: Record<AITool, PlatformFunctions> = {
     configure: configureClaude,
     collectTemplates: () => {
       const files = new Map<string, string>();
-      // Commands (in trellis/ subdirectory for namespace)
+      // Commands (in aim/ subdirectory for namespace)
       for (const cmd of getClaudeCommands()) {
         files.set(`.claude/commands/aim/${cmd.name}.md`, cmd.content);
       }
@@ -53,12 +61,35 @@ const PLATFORM_FUNCTIONS: Record<AITool, PlatformFunctions> = {
       for (const hook of getClaudeHooks()) {
         files.set(`.claude/${hook.targetPath}`, hook.content);
       }
+      // Skills
+      for (const skill of getClaudeSkills()) {
+        files.set(`.claude/skills/${skill.name}/SKILL.md`, skill.content);
+      }
       // Settings (resolve {{PYTHON_CMD}} to match what configure() writes)
       const settings = getClaudeSettings();
       files.set(
         `.claude/${settings.targetPath}`,
         resolvePlaceholders(settings.content),
       );
+      return files;
+    },
+  },
+  opencode: {
+    configure: configureOpencode,
+    collectTemplates: () => {
+      const files = new Map<string, string>();
+      // Commands (in aim/ subdirectory for namespace)
+      for (const cmd of getOpencodeCommands()) {
+        files.set(`.opencode/commands/aim/${cmd.name}.md`, cmd.content);
+      }
+      // Agents
+      for (const agent of getOpencodeAgents()) {
+        files.set(`.opencode/agents/${agent.name}.md`, agent.content);
+      }
+      // Plugins (lib + plugin)
+      for (const plugin of getOpencodePlugins()) {
+        files.set(`.opencode/${plugin.targetPath}`, plugin.content);
+      }
       return files;
     },
   },

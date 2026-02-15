@@ -22,7 +22,7 @@ describe("DIR_NAMES", () => {
     expect(DIR_NAMES).toHaveProperty("SCRIPTS");
   });
 
-  it("WORKFLOW is .trellis", () => {
+  it("WORKFLOW is .aim-studio", () => {
     expect(DIR_NAMES.WORKFLOW).toBe(".aim-studio");
   });
 
@@ -65,14 +65,19 @@ describe("PATHS", () => {
     expect(PATHS.WORKFLOW).toBe(DIR_NAMES.WORKFLOW);
   });
 
-  it("all paths start with DIR_NAMES.WORKFLOW", () => {
-    for (const value of Object.values(PATHS)) {
-      expect(value.startsWith(DIR_NAMES.WORKFLOW)).toBe(true);
+  it("most paths start with DIR_NAMES.WORKFLOW (WORKSPACE is separate)", () => {
+    for (const [key, value] of Object.entries(PATHS)) {
+      if (key === "WORKSPACE") {
+        // WORKSPACE is at project root, not under .aim-studio
+        expect(value).toBe(DIR_NAMES.WORKSPACE);
+      } else {
+        expect(value.startsWith(DIR_NAMES.WORKFLOW)).toBe(true);
+      }
     }
   });
 
-  it("WORKSPACE is WORKFLOW/workspace", () => {
-    expect(PATHS.WORKSPACE).toBe(`${DIR_NAMES.WORKFLOW}/${DIR_NAMES.WORKSPACE}`);
+  it("WORKSPACE is aim-workspace (at project root)", () => {
+    expect(PATHS.WORKSPACE).toBe(DIR_NAMES.WORKSPACE);
   });
 
   it("TASKS is WORKFLOW/tasks", () => {
@@ -118,15 +123,15 @@ describe("PATHS", () => {
 
 describe("getWorkspaceDir", () => {
   it("returns correct path for developer name", () => {
-    expect(getWorkspaceDir("john")).toBe(".aim-studio/workspace/john");
+    expect(getWorkspaceDir("john")).toBe("aim-workspace/john");
   });
 
   it("handles hyphenated names", () => {
-    expect(getWorkspaceDir("john-doe")).toBe(".aim-studio/workspace/john-doe");
+    expect(getWorkspaceDir("john-doe")).toBe("aim-workspace/john-doe");
   });
 
   it("handles empty string", () => {
-    expect(getWorkspaceDir("")).toBe(".aim-studio/workspace/");
+    expect(getWorkspaceDir("")).toBe("aim-workspace/");
   });
 });
 

@@ -309,6 +309,7 @@ function createBootstrapTask(
 
 interface InitOptions {
   claude?: boolean;
+  opencode?: boolean;
   yes?: boolean;
   user?: string;
   force?: boolean;

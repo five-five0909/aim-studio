@@ -264,7 +264,7 @@ function collectFiles(
  * Initialize template hashes after init
  *
  * Scans all template directories and computes hashes for files.
- * This should be called at the end of `trellis init` to enable
+ * This should be called at the end of `aim init` to enable
  * modification detection on subsequent updates.
  *
  * @param cwd - Working directory

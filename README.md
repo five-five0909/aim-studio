@@ -48,8 +48,11 @@ npm i @fifine/aim-studio -g
 # 进入你的项目目录
 cd my-story-project
 
-# 初始化 AIM Studio
+# 初始化 AIM Studio（默认使用 Claude Code）
 aim init -u 你的名字
+
+# 或同时启用 OpenCode 支持
+aim init -u 你的名字 --opencode
 ```
 
 ### 3. 开始创作
@@ -129,7 +132,15 @@ aim init -u 你的名字
 | 命令 | 说明 |
 | --- | --- |
 | `aim init -u <名字>` | 初始化漫剧创作项目 |
+| `aim init -u <名字> --opencode` | 初始化并启用 OpenCode 支持 |
 | `aim update` | 更新项目配置到最新版本 |
+
+## 🤖 支持的 AI 工具
+
+| 工具 | 配置目录 | 说明 |
+| --- | --- | --- |
+| **Claude Code** | `.claude/` | 默认启用，完整的命令和 Hook 支持 |
+| **OpenCode** | `.opencode/` | 可选启用，支持命令和插件 |
 
 ## 🤝 参与贡献
 

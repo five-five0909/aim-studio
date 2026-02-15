@@ -1,5 +1,5 @@
 /**
- * Markdown templates for Trellis workflow
+ * Markdown templates for AIM Studio workflow
  *
  * These are GENERIC templates for new projects.
  * Structure templates use .md.txt extension as they are generic templates.
@@ -38,67 +38,9 @@ export const workflowGitignoreContent: string =
   readLocalTemplate("gitignore.txt");
 
 // =============================================================================
-// Structure templates (generic templates from .txt files)
-// These are NOT dogfooded - they are generic templates for new projects
+// Story structure templates (for AI comic/novel creation)
 // =============================================================================
 
-// Backend structure (multi-doc format)
-export const backendIndexContent: string = readLocalTemplate(
-  "spec/backend/index.md.txt",
-);
-export const backendDirectoryStructureContent: string = readLocalTemplate(
-  "spec/backend/directory-structure.md.txt",
-);
-export const backendDatabaseGuidelinesContent: string = readLocalTemplate(
-  "spec/backend/database-guidelines.md.txt",
-);
-export const backendLoggingGuidelinesContent: string = readLocalTemplate(
-  "spec/backend/logging-guidelines.md.txt",
-);
-export const backendQualityGuidelinesContent: string = readLocalTemplate(
-  "spec/backend/quality-guidelines.md.txt",
-);
-export const backendErrorHandlingContent: string = readLocalTemplate(
-  "spec/backend/error-handling.md.txt",
-);
-
-// Frontend structure (multi-doc format)
-export const frontendIndexContent: string = readLocalTemplate(
-  "spec/frontend/index.md.txt",
-);
-export const frontendDirectoryStructureContent: string = readLocalTemplate(
-  "spec/frontend/directory-structure.md.txt",
-);
-export const frontendTypeSafetyContent: string = readLocalTemplate(
-  "spec/frontend/type-safety.md.txt",
-);
-export const frontendHookGuidelinesContent: string = readLocalTemplate(
-  "spec/frontend/hook-guidelines.md.txt",
-);
-export const frontendComponentGuidelinesContent: string = readLocalTemplate(
-  "spec/frontend/component-guidelines.md.txt",
-);
-export const frontendQualityGuidelinesContent: string = readLocalTemplate(
-  "spec/frontend/quality-guidelines.md.txt",
-);
-export const frontendStateManagementContent: string = readLocalTemplate(
-  "spec/frontend/state-management.md.txt",
-);
-
-// Guides structure
-export const guidesIndexContent: string = readLocalTemplate(
-  "spec/guides/index.md.txt",
-);
-export const guidesCrossLayerThinkingGuideContent: string = readLocalTemplate(
-  "spec/guides/cross-layer-thinking-guide.md.txt",
-);
-export const guidesCodeReuseThinkingGuideContent: string = readLocalTemplate(
-  "spec/guides/code-reuse-thinking-guide.md.txt",
-);
-export const guidesCrossPlatformThinkingGuideContent: string =
-  readLocalTemplate("spec/guides/cross-platform-thinking-guide.md.txt");
-
-// Story structure
 export const storyIndexContent: string = readLocalTemplate(
   "spec/story/index.md.txt",
 );
@@ -113,21 +55,4 @@ export const storyScriptContent: string = readLocalTemplate(
 );
 export const styleGuideContent: string = readLocalTemplate(
   "spec/story/style-guide.md.txt",
-);
-
-// CLI tool structure
-export const cliIndexContent: string = readLocalTemplate(
-  "spec/cli/index.md.txt",
-);
-export const cliDirectoryStructureContent: string = readLocalTemplate(
-  "spec/cli/directory-structure.md.txt",
-);
-export const cliOptionsFlagsContent: string = readLocalTemplate(
-  "spec/cli/options-flags.md.txt",
-);
-export const cliOutputFormattingContent: string = readLocalTemplate(
-  "spec/cli/output-formatting.md.txt",
-);
-export const cliErrorHandlingContent: string = readLocalTemplate(
-  "spec/cli/error-handling.md.txt",
 );

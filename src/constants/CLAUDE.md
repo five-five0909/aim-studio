@@ -1,6 +1,6 @@
 > [← 返回根目录](../CLAUDE.md) | **src/constants/**
 >
-> 本模块提供 Trellis 项目的常量定义。
+> 本模块提供 AIM Studio 项目的常量定义。
 
 ## 概览
 
@@ -44,7 +44,7 @@ export const DIR_NAMES = {
 import { VERSION, PACKAGE_NAME } from "./constants/version.js";
 import { DIR_NAMES } from "./constants/paths.js";
 
-console.log(`Running Trellis ${VERSION}`);
+console.log(`Running AIM Studio ${VERSION}`);
 const workflowPath = `./${DIR_NAMES.WORKFLOW}`;
 ```
 

@@ -51,6 +51,22 @@ export function getClaudeTemplatePath(): string {
 }
 
 /**
+ * Get the path to the opencode templates directory.
+ *
+ * This reads from src/templates/opencode/ (development) or dist/templates/opencode/ (production).
+ */
+export function getOpencodeTemplatePath(): string {
+  const templatePath = path.join(__dirname, "opencode");
+  if (fs.existsSync(templatePath)) {
+    return templatePath;
+  }
+
+  throw new Error(
+    "Could not find opencode templates directory. Expected at templates/opencode/",
+  );
+}
+
+/**
  * @deprecated Use getClaudeTemplatePath() instead.
  */
 export function getClaudeSourcePath(): string {

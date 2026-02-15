@@ -1,6 +1,6 @@
 > [← 返回根目录](../CLAUDE.md) | **src/types/**
 >
-> 本模块提供 Trellis 项目的 TypeScript 类型定义。
+> 本模块提供 AIM Studio 项目的 TypeScript 类型定义。
 
 ## 概览
 

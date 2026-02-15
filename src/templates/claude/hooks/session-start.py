@@ -26,10 +26,7 @@ if sys.platform == "win32":
 
 
 def should_skip_injection() -> bool:
-    return (
-        os.environ.get("CLAUDE_NON_INTERACTIVE") == "1"
-        or os.environ.get("OPENCODE_NON_INTERACTIVE") == "1"
-    )
+    return os.environ.get("CLAUDE_NON_INTERACTIVE") == "1"
 
 
 def read_file(path: Path, fallback: str = "") -> str:
@@ -113,7 +110,7 @@ def main():
         sys.exit(0)
 
     project_dir = Path(os.environ.get("CLAUDE_PROJECT_DIR", ".")).resolve()
-    trellis_dir = project_dir / ".aim-studio"
+    aim_dir = project_dir / ".aim-studio"
     claude_dir = project_dir / ".claude"
 
     # Detect project type
@@ -141,13 +138,13 @@ def main():
 
     # Get current context
     output.write("<current-state>\n")
-    context_script = trellis_dir / "scripts" / "get_context.py"
+    context_script = aim_dir / "scripts" / "get_context.py"
     output.write(run_script(context_script))
     output.write("\n</current-state>\n\n")
 
     # Workflow
     output.write("<workflow>\n")
-    workflow_content = read_file(trellis_dir / "workflow.md", "未找到 workflow.md")
+    workflow_content = read_file(aim_dir / "workflow.md", "未找到 workflow.md")
     output.write(workflow_content)
     output.write("\n</workflow>\n\n")
 
@@ -158,7 +155,7 @@ def main():
     if project_type == "cli":
         output.write("## CLI 开发规范\n")
         cli_index = read_file(
-            trellis_dir / "spec" / "cli" / "index.md", "未配置 CLI 规范"
+            aim_dir / "spec" / "cli" / "index.md", "未配置 CLI 规范"
         )
         output.write(cli_index)
         output.write("\n\n")
@@ -167,7 +164,7 @@ def main():
     if project_type in ("frontend", "fullstack"):
         output.write("## 前端开发规范\n")
         frontend_index = read_file(
-            trellis_dir / "spec" / "frontend" / "index.md", "未配置前端规范"
+            aim_dir / "spec" / "frontend" / "index.md", "未配置前端规范"
         )
         output.write(frontend_index)
         output.write("\n\n")
@@ -176,7 +173,7 @@ def main():
     if project_type in ("backend", "fullstack", "cli"):
         output.write("## 后端开发规范\n")
         backend_index = read_file(
-            trellis_dir / "spec" / "backend" / "index.md", "未配置后端规范"
+            aim_dir / "spec" / "backend" / "index.md", "未配置后端规范"
         )
         output.write(backend_index)
         output.write("\n\n")
@@ -185,7 +182,7 @@ def main():
     if project_type == "story":
         output.write("## 漫剧创作规范\n")
         story_index = read_file(
-            trellis_dir / "spec" / "story" / "index.md", "未配置漫剧规范"
+            aim_dir / "spec" / "story" / "index.md", "未配置漫剧规范"
         )
         output.write(story_index)
         output.write("\n\n")
@@ -193,7 +190,7 @@ def main():
     # Guides - 始终提供
     output.write("## 开发指南\n")
     guides_index = read_file(
-        trellis_dir / "spec" / "guides" / "index.md", "未配置开发指南"
+        aim_dir / "spec" / "guides" / "index.md", "未配置开发指南"
     )
     output.write(guides_index)
 

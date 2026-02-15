@@ -11,6 +11,62 @@ AIM Studio (原 Trellis) 是一个 AI 驱动的开发工作流 CLI 工具，致�
 - **上下文持久化**：通过 Spec Injection 将规则注入每个任务，而非依赖记忆
 - **跨层思考**：通过 Cross-Layer Guide 梳理数据流和模块边界
 
+## 支持的 AI 工具
+
+| 工具 | 配置目录 | 模板位置 | 说明 |
+|------|----------|----------|------|
+| **Claude Code** | `.claude/` | `src/templates/claude/` | 默认启用，完整支持 |
+| **OpenCode** | `.opencode/` | `src/templates/opencode/` | 可选启用 |
+
+### 平台格式差异
+
+两个平台使用不同的模板格式，不能共享文件：
+
+| 特性 | Claude Code | OpenCode |
+|------|-------------|----------|
+| **Commands frontmatter** | 有 (`name`, `description`) | 无 |
+| **Agents frontmatter** | `name`, `description`, `tools`, `model` | `description`, `mode`, `permission` |
+| **配置文件** | `settings.json`, `hooks/` | `lib/`, `plugin/` |
+
+**示例：Command 格式差异**
+
+```markdown
+<!-- Claude Code: commands/aim/start.md -->
+---
+name: start
+description: 开始 AIM Studio 漫剧创作会话
+---
+
+# 开始会话
+...
+
+<!-- OpenCode: commands/aim/start.md -->
+# 开始会话
+...
+```
+
+**示例：Agent 格式差异**
+
+```markdown
+<!-- Claude Code: agents/director.md -->
+---
+name: director
+description: 总导演 Agent
+tools: Read, Write, Bash
+model: opus
+---
+
+<!-- OpenCode: agents/director.md -->
+---
+description: 总导演 Agent
+mode: primary
+permission:
+  read: allow
+  write: allow
+  bash: allow
+---
+```
+
 ---
 
 ## 架构总览

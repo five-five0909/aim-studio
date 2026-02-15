@@ -1,19 +1,12 @@
 """
-CLI Adapter for Multi-Platform Support.
+CLI Adapter for Claude Code.
 
-Abstracts differences between Claude Code, OpenCode, Cursor, iFlow, and Codex interfaces.
-
-Supported platforms:
-- claude: Claude Code (default)
-- opencode: OpenCode
-- cursor: Cursor IDE
-- iflow: iFlow CLI
-- codex: Codex CLI (skills-based)
+Simplified adapter for Claude Code only. All other platforms have been removed.
 
 Usage:
     from common.cli_adapter import CLIAdapter
 
-    adapter = CLIAdapter("opencode")
+    adapter = CLIAdapter()
     cmd = adapter.build_run_command(
         agent="dispatch",
         session_id="abc123",
@@ -23,44 +16,33 @@ Usage:
 
 from __future__ import annotations
 
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 from pathlib import Path
-from typing import ClassVar, Literal
+from typing import Literal
 
-Platform = Literal["claude", "opencode", "cursor", "iflow", "codex"]
+Platform = Literal["claude"]
 
 
 @dataclass
 class CLIAdapter:
-    """Adapter for different AI coding CLI tools."""
+    """Adapter for Claude Code CLI tool."""
 
-    platform: Platform
+    platform: Platform = "claude"
 
     # =========================================================================
     # Agent Name Mapping
     # =========================================================================
 
-    # OpenCode has built-in agents that cannot be overridden
-    # See: https://github.com/sst/opencode/issues/4271
-    # Note: Class-level constant, not a dataclass field
-    _AGENT_NAME_MAP: ClassVar[dict[Platform, dict[str, str]]] = {
-        "claude": {},  # No mapping needed
-        "opencode": {
-            "plan": "trellis-plan",  # 'plan' is built-in in OpenCode
-        },
-    }
-
     def get_agent_name(self, agent: str) -> str:
-        """Get platform-specific agent name.
+        """Get agent name (no mapping needed for Claude Code).
 
         Args:
             agent: Original agent name (e.g., 'plan', 'dispatch')
 
         Returns:
-            Platform-specific agent name (e.g., 'trellis-plan' for OpenCode)
+            Agent name (unchanged for Claude Code)
         """
-        mapping = self._AGENT_NAME_MAP.get(self.platform, {})
-        return mapping.get(agent, agent)
+        return agent
 
     # =========================================================================
     # Agent Path
@@ -68,30 +50,21 @@ class CLIAdapter:
 
     @property
     def config_dir_name(self) -> str:
-        """Get platform-specific config directory name.
+        """Get config directory name.
 
         Returns:
-            Directory name ('.claude', '.opencode', '.cursor', '.iflow', or '.agents')
+            Directory name '.claude'
         """
-        if self.platform == "opencode":
-            return ".opencode"
-        elif self.platform == "cursor":
-            return ".cursor"
-        elif self.platform == "iflow":
-            return ".iflow"
-        elif self.platform == "codex":
-            return ".agents"
-        else:
-            return ".claude"
+        return ".claude"
 
     def get_config_dir(self, project_root: Path) -> Path:
-        """Get platform-specific config directory.
+        """Get config directory path.
 
         Args:
             project_root: Project root directory
 
         Returns:
-            Path to config directory (.claude, .opencode, .cursor, .iflow, or .agents)
+            Path to .claude config directory
         """
         return project_root / self.config_dir_name
 
@@ -99,60 +72,39 @@ class CLIAdapter:
         """Get path to agent definition file.
 
         Args:
-            agent: Agent name (original, before mapping)
+            agent: Agent name
             project_root: Project root directory
 
         Returns:
             Path to agent .md file
         """
-        mapped_name = self.get_agent_name(agent)
-        return self.get_config_dir(project_root) / "agents" / f"{mapped_name}.md"
+        return self.get_config_dir(project_root) / "agents" / f"{agent}.md"
 
     def get_commands_path(self, project_root: Path, *parts: str) -> Path:
         """Get path to commands directory or specific command file.
 
         Args:
             project_root: Project root directory
-            *parts: Additional path parts (e.g., 'trellis', 'finish-work.md')
+            *parts: Additional path parts (e.g., 'aim', 'finish-work.md')
 
         Returns:
             Path to commands directory or file
-
-        Note:
-            Cursor uses prefix naming: .cursor/commands/trellis-<name>.md
-            Claude/OpenCode use subdirectory: .claude/commands/trellis/<name>.md
         """
         if not parts:
             return self.get_config_dir(project_root) / "commands"
 
-        # Cursor uses prefix naming instead of subdirectory
-        if self.platform == "cursor" and len(parts) >= 2 and parts[0] == "aim":
-            # Convert aim/<name>.md to aim-<name>.md
-            filename = parts[-1]
-            return self.get_config_dir(project_root) / "commands" / f"aim-{filename}"
-
         return self.get_config_dir(project_root) / "commands" / Path(*parts)
 
     def get_aim_command_path(self, name: str) -> str:
-        """Get relative path to a aim command file.
+        """Get relative path to an aim command file.
 
         Args:
             name: Command name without extension (e.g., 'finish-work', 'check-backend')
 
         Returns:
             Relative path string for use in JSONL entries
-
-        Note:
-            Cursor: .cursor/commands/aim-{name}.md
-            Codex: .agents/skills/{name}/SKILL.md
-            Others: .{platform}/commands/aim/{name}.md
         """
-        if self.platform == "cursor":
-            return f".cursor/commands/aim-{name}.md"
-        elif self.platform == "codex":
-            return f".agents/skills/{name}/SKILL.md"
-        else:
-            return f"{self.config_dir_name}/commands/aim/{name}.md"
+        return f"{self.config_dir_name}/commands/aim/{name}.md"
 
     # =========================================================================
     # Environment Variables
@@ -164,12 +116,7 @@ class CLIAdapter:
         Returns:
             Dict of environment variables to set
         """
-        if self.platform == "opencode":
-            return {"OPENCODE_NON_INTERACTIVE": "1"}
-        elif self.platform == "codex":
-            return {"CODEX_NON_INTERACTIVE": "1"}
-        else:
-            return {"CLAUDE_NON_INTERACTIVE": "1"}
+        return {"CLAUDE_NON_INTERACTIVE": "1"}
 
     # =========================================================================
     # CLI Command Building
@@ -187,9 +134,9 @@ class CLIAdapter:
         """Build CLI command for running an agent.
 
         Args:
-            agent: Agent name (will be mapped if needed)
+            agent: Agent name
             prompt: Prompt to send to the agent
-            session_id: Optional session ID (Claude Code only for creation)
+            session_id: Optional session ID
             skip_permissions: Whether to skip permission prompts
             verbose: Whether to enable verbose output
             json_output: Whether to use JSON output format
@@ -197,48 +144,22 @@ class CLIAdapter:
         Returns:
             List of command arguments
         """
-        mapped_agent = self.get_agent_name(agent)
+        cmd = ["claude", "-p"]
+        cmd.extend(["--agent", agent])
 
-        if self.platform == "opencode":
-            cmd = ["opencode", "run"]
-            cmd.extend(["--agent", mapped_agent])
+        if session_id:
+            cmd.extend(["--session-id", session_id])
 
-            # Note: OpenCode 'run' mode is non-interactive by default
-            # No equivalent to Claude Code's --dangerously-skip-permissions
-            # See: https://github.com/anomalyco/opencode/issues/9070
+        if skip_permissions:
+            cmd.append("--dangerously-skip-permissions")
 
-            if json_output:
-                cmd.extend(["--format", "json"])
+        if json_output:
+            cmd.extend(["--output-format", "stream-json"])
 
-            if verbose:
-                cmd.extend(["--log-level", "DEBUG", "--print-logs"])
+        if verbose:
+            cmd.append("--verbose")
 
-            # Note: OpenCode doesn't support --session-id on creation
-            # Session ID must be extracted from logs after startup
-
-            cmd.append(prompt)
-
-        elif self.platform == "codex":
-            cmd = ["codex", "exec"]
-            cmd.append(prompt)
-
-        else:  # claude
-            cmd = ["claude", "-p"]
-            cmd.extend(["--agent", mapped_agent])
-
-            if session_id:
-                cmd.extend(["--session-id", session_id])
-
-            if skip_permissions:
-                cmd.append("--dangerously-skip-permissions")
-
-            if json_output:
-                cmd.extend(["--output-format", "stream-json"])
-
-            if verbose:
-                cmd.append("--verbose")
-
-            cmd.append(prompt)
+        cmd.append(prompt)
 
         return cmd
 
@@ -251,12 +172,7 @@ class CLIAdapter:
         Returns:
             List of command arguments
         """
-        if self.platform == "opencode":
-            return ["opencode", "run", "--session", session_id]
-        elif self.platform == "codex":
-            return ["codex", "resume", session_id]
-        else:
-            return ["claude", "--resume", session_id]
+        return ["claude", "--resume", session_id]
 
     def get_resume_command_str(self, session_id: str, cwd: str | None = None) -> str:
         """Get human-readable resume command string.
@@ -280,41 +196,19 @@ class CLIAdapter:
     # =========================================================================
 
     @property
-    def is_opencode(self) -> bool:
-        """Check if platform is OpenCode."""
-        return self.platform == "opencode"
-
-    @property
     def is_claude(self) -> bool:
-        """Check if platform is Claude Code."""
-        return self.platform == "claude"
-
-    @property
-    def is_cursor(self) -> bool:
-        """Check if platform is Cursor."""
-        return self.platform == "cursor"
+        """Check if platform is Claude Code (always True)."""
+        return True
 
     @property
     def cli_name(self) -> str:
-        """Get CLI executable name.
-
-        Note: Cursor doesn't have a CLI tool, returns None-like value.
-        """
-        if self.is_opencode:
-            return "opencode"
-        elif self.is_cursor:
-            return "cursor"  # Note: Cursor is IDE-only, no CLI
-        else:
-            return "claude"
+        """Get CLI executable name."""
+        return "claude"
 
     @property
     def supports_cli_agents(self) -> bool:
-        """Check if platform supports running agents via CLI.
-
-        Claude Code and OpenCode support CLI agent execution.
-        Cursor is IDE-only and doesn't support CLI agents.
-        """
-        return self.platform in ("claude", "opencode")
+        """Check if platform supports running agents via CLI (always True)."""
+        return True
 
     # =========================================================================
     # Session ID Handling
@@ -322,31 +216,8 @@ class CLIAdapter:
 
     @property
     def supports_session_id_on_create(self) -> bool:
-        """Check if platform supports specifying session ID on creation.
-
-        Claude Code: Yes (--session-id)
-        OpenCode: No (auto-generated, extract from logs)
-        """
-        return self.platform == "claude"
-
-    def extract_session_id_from_log(self, log_content: str) -> str | None:
-        """Extract session ID from log output (OpenCode only).
-
-        OpenCode generates session IDs in format: ses_xxx
-
-        Args:
-            log_content: Log file content
-
-        Returns:
-            Session ID if found, None otherwise
-        """
-        import re
-
-        # OpenCode session ID pattern
-        match = re.search(r"ses_[a-zA-Z0-9]+", log_content)
-        if match:
-            return match.group(0)
-        return None
+        """Check if platform supports specifying session ID on creation (always True)."""
+        return True
 
 
 # =============================================================================
@@ -355,81 +226,42 @@ class CLIAdapter:
 
 
 def get_cli_adapter(platform: str = "claude") -> CLIAdapter:
-    """Get CLI adapter for the specified platform.
+    """Get CLI adapter for Claude Code.
 
     Args:
-        platform: Platform name ('claude', 'opencode', 'cursor', 'iflow', or 'codex')
+        platform: Platform name (only 'claude' is supported)
 
     Returns:
         CLIAdapter instance
 
     Raises:
-        ValueError: If platform is not supported
+        ValueError: If platform is not 'claude'
     """
-    if platform not in ("claude", "opencode", "cursor", "iflow", "codex"):
-        raise ValueError(f"Unsupported platform: {platform} (must be 'claude', 'opencode', 'cursor', 'iflow', or 'codex')")
+    if platform != "claude":
+        raise ValueError(f"Unsupported platform: {platform} (only 'claude' is supported)")
 
-    return CLIAdapter(platform=platform)  # type: ignore
+    return CLIAdapter()
 
 
 def detect_platform(project_root: Path) -> Platform:
-    """Auto-detect platform based on existing config directories.
-
-    Detection order:
-    1. TRELLIS_PLATFORM environment variable (if set)
-    2. .opencode directory exists → opencode
-    3. .iflow directory exists → iflow
-    4. .cursor directory exists (without .claude) → cursor
-    5. .agents/skills exists and no other platform dirs → codex
-    6. Default → claude
+    """Detect platform (always returns 'claude').
 
     Args:
         project_root: Project root directory
 
     Returns:
-        Detected platform ('claude', 'opencode', 'cursor', 'iflow', or 'codex')
+        'claude'
     """
-    import os
-
-    # Check environment variable first
-    env_platform = os.environ.get("TRELLIS_PLATFORM", "").lower()
-    if env_platform in ("claude", "opencode", "cursor", "iflow", "codex"):
-        return env_platform  # type: ignore
-
-    # Check for .opencode directory (OpenCode-specific)
-    # Note: .claude might exist in both platforms during migration
-    if (project_root / ".opencode").is_dir():
-        return "opencode"
-
-    # Check for .iflow directory (iFlow-specific)
-    # Note: .claude might exist in both platforms during migration
-    if (project_root / ".iflow").is_dir():
-        return "iflow"
-
-    # Check for .cursor directory (Cursor-specific)
-    # Only detect as cursor if .claude doesn't exist (to avoid confusion)
-    if (project_root / ".cursor").is_dir() and not (project_root / ".claude").is_dir():
-        return "cursor"
-
-    # Check for Codex skills directory only when no other platform config exists
-    other_platform_dirs = (".claude", ".cursor", ".iflow", ".opencode")
-    has_other_platform_config = any(
-        (project_root / directory).is_dir() for directory in other_platform_dirs
-    )
-    if (project_root / ".agents" / "skills").is_dir() and not has_other_platform_config:
-        return "codex"
-
     return "claude"
 
 
 def get_cli_adapter_auto(project_root: Path) -> CLIAdapter:
-    """Get CLI adapter with auto-detected platform.
+    """Get CLI adapter (always returns Claude Code adapter).
 
     Args:
         project_root: Project root directory
 
     Returns:
-        CLIAdapter instance for detected platform
+        CLIAdapter instance for Claude Code
     """
-    platform = detect_platform(project_root)
-    return CLIAdapter(platform=platform)
+    return CLIAdapter()

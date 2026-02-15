@@ -5,19 +5,19 @@
  */
 
 /**
- * Supported AI tools — only Claude Code
+ * Supported AI tools — Claude Code and OpenCode
  */
-export type AITool = "claude-code";
+export type AITool = "claude-code" | "opencode";
 
 /**
  * Template directory categories
  */
-export type TemplateDir = "common" | "claude";
+export type TemplateDir = "common" | "claude" | "opencode";
 
 /**
  * CLI flag names for platform selection
  */
-export type CliFlag = "claude";
+export type CliFlag = "claude" | "opencode";
 
 /**
  * Configuration for an AI tool
@@ -49,6 +49,14 @@ export const AI_TOOLS: Record<AITool, AIToolConfig> = {
     cliFlag: "claude",
     defaultChecked: true,
     hasPythonHooks: true,
+  },
+  opencode: {
+    name: "OpenCode",
+    templateDirs: ["common", "opencode"],
+    configDir: ".opencode",
+    cliFlag: "opencode",
+    defaultChecked: false,
+    hasPythonHooks: false,
   },
 };
 

@@ -1,10 +1,10 @@
 > [← 返回根目录](../CLAUDE.md) | **src/commands/**
 >
-> 本模块提供 Trellis CLI 的核心命令实现。
+> 本模块提供 AIM Studio CLI 的核心命令实现。
 
 ## 概览
 
-`src/commands/` 包含 Trellis CLI 的两个核心命令：
+`src/commands/` 包含 AIM Studio CLI 的两个核心命令：
 - **init.ts** - 初始化新项目配置
 - **update.ts** - 更新现有配置
 
@@ -12,7 +12,7 @@
 
 | 文件 | 导出 | 职责 |
 | --- | --- | --- |
-| `init.ts` | `init(options)` | 初始化 Trellis 配置，支持多种 AI 工具 |
+| `init.ts` | `init(options)` | 初始化 AIM Studio 配置，支持多种 AI 工具 |
 | `update.ts` | `update(options)` | 更新配置，处理文件迁移和版本兼容 |
 
 ## 依赖关系

@@ -1,6 +1,6 @@
 > [← 返回根目录](../CLAUDE.md) | **src/utils/**
 >
-> 本模块提供 Trellis 项目使用的工具函数。
+> 本模块提供 AIM Studio 项目使用的工具函数。
 
 ## 概览
 
